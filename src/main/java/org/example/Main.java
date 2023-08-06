@@ -6,7 +6,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
         ApplicationContext context = new AnnotationConfigApplicationContext(ProjectConfig.class);
 
 
@@ -14,8 +13,13 @@ public class Main {
             System.out.println(beanName);
         }
 
+        System.out.println("=========");
+
         Parrot parrot1 = context.getBean(Parrot.class);
-        parrot1.setName("Koko");
         System.out.println(parrot1.getName());
+
+        Sparrow sparrow1 = context.getBean(Sparrow.class);
+        sparrow1.setName("Jack");
+        System.out.println(sparrow1.getName());
     }
 }

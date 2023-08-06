@@ -1,6 +1,9 @@
 package org.example;
 
-public class Parrot {
+import org.springframework.stereotype.Component;
+
+@Component
+public class Sparrow {
     private String name;
 
     public String getName() {
