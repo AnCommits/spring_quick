@@ -1,27 +1,19 @@
 package config;
 
-import org.example.Parrot;
-import org.example.Person;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import services.CommentService;
 
 @Configuration
-@ComponentScan(basePackages = "org.example")
+@ComponentScan(basePackages = {"services", "repositories"})
 public class ProjectConfig {
 
-    @Bean
-    Parrot parrot() {
-        Parrot p = new Parrot();
-        p.setName("Miki");
-        return p;
-    }
-
-    @Bean
-    Person person() {
-        Person p = new Person();
-        p.setName("Ella");
-        p.setParrot(parrot());
-        return p;
-    }
+//    @Bean
+//    @Scope(BeanDefinition.SCOPE_PROTOTYPE) // Объявляем бин прототипным
+//    public CommentService commentService() {
+//        return new CommentService();
+//    }
 }
