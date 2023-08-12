@@ -1,16 +1,19 @@
 package services;
 
-import repositories.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import model.Comment;
 import org.springframework.stereotype.Service;
+
+import java.util.logging.Logger;
 
 @Service
 public class CommentService {
 
-    @Autowired // запрашивается экземпляр типа CommentRepository
-    private CommentRepository commentRepository;
+    // При объявлении объекта logger необходимо дать ему имя в качестве параметра.
+    // Для этого часто используют имя класса.
+    // Данное имя будет появляться в записях журнала.
+    private final Logger logger = Logger.getLogger(CommentService.class.getName());
 
-    public CommentRepository getCommentRepository() {
-        return commentRepository;
+    public void publishComment(Comment comment) {
+        logger.info("Publishing comment: " + comment.getText());
     }
 }

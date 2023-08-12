@@ -1,19 +1,20 @@
 package main;
 
 import config.ProjectConfig;
+import model.Comment;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import services.CommentService;
-import services.UserService;
 
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(ProjectConfig.class);
 
-        var s1 = context.getBean(CommentService.class);
-        var s2 = context.getBean(UserService.class);
-        // Каждый сервис получил свой экземпляр CommentRepository
-        System.out.println(s1.getCommentRepository() == s2.getCommentRepository());
+        CommentService service = context.getBean(CommentService.class);
+        Comment comment = new Comment();
+        comment.setText("Demo comment");
+        comment.setAuthor("Natasha");
+        service.publishComment(comment);
 
         context.close();
     }

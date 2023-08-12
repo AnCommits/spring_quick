@@ -1,19 +1,18 @@
 package config;
 
-import org.springframework.beans.factory.config.BeanDefinition;
+import aspect.LoggingAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import services.CommentService;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
-@ComponentScan(basePackages = {"services", "repositories"})
+@ComponentScan(basePackages = {"services", "aspect"})
+@EnableAspectJAutoProxy // Активирует аспекты в Spring-приложении
 public class ProjectConfig {
 
-//    @Bean
-//    @Scope(BeanDefinition.SCOPE_PROTOTYPE) // Объявляем бин прототипным
-//    public CommentService commentService() {
-//        return new CommentService();
-//    }
+    @Bean // Добавляет экземпляр класса LoggingAspect в контекст Spring
+    public LoggingAspect aspect() {
+        return new LoggingAspect();
+    }
 }
