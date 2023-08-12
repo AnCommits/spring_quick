@@ -13,7 +13,7 @@ public class LoggingAspect {
 
     private final Logger logger = Logger.getLogger(LoggingAspect.class.getName());
 
-    @Around("execution(* services.*.*(..))")
+    @Around("@annotation(ToLog)") // Вплетение аспекта в методы с аннотацией @ToLog
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         // Получение имени и параметров перехватываемого метода
         String methodName = joinPoint.getSignature().getName();
@@ -23,15 +23,9 @@ public class LoggingAspect {
                 " with parameters " + Arrays.asList(arguments) +
                 " will execute");
 
-        Comment comment = new Comment();
-        comment.setText("Some other text");
-        Object[] newArguments = {comment};
+        Object returnedByMethod = joinPoint.proceed(arguments);
 
-        Object returnedByMethod = joinPoint.proceed(newArguments);
-
-        // Значение, возвращаемое перехваченным методом, выводится в консоль,
-        // а вызывающий метод получает другое значение
         logger.info("Method executed and returned " + returnedByMethod);
-        return "Failed";
+        return null;
     }
 }
