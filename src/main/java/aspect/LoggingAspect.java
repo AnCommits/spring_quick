@@ -1,31 +1,27 @@
 package aspect;
 
-import model.Comment;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.core.annotation.Order;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 @Aspect
+@Order(20) // Определяет порядковый номер аспекта в цепочке выполнения
 public class LoggingAspect {
 
     private final Logger logger = Logger.getLogger(LoggingAspect.class.getName());
 
-    @Around("@annotation(ToLog)") // Вплетение аспекта в методы с аннотацией @ToLog
+    @Around(value = "@annotation(ToLog)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
-        // Получение имени и параметров перехватываемого метода
-        String methodName = joinPoint.getSignature().getName();
-        Object[] arguments = joinPoint.getArgs();
+        logger.info("Logging Aspect: Calling the intercepted method");
 
-        logger.info("Method " + methodName +
-                " with parameters " + Arrays.asList(arguments) +
-                " will execute");
+        // Метод proceed() делегирует выполнение цепочки аспектов.
+        // Он вызывает либо следующий аспект, либо перехватываемый метод
+        Object returnedValue = joinPoint.proceed();
 
-        Object returnedByMethod = joinPoint.proceed(arguments);
-
-        logger.info("Method executed and returned " + returnedByMethod);
-        return null;
+        logger.info("Logging Aspect: Method executed and returned " + returnedValue);
+        return returnedValue;
     }
 }
